@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+
+<ul>
+<li th:each="air:${aircrafts}" th:text="${air}">Aircraft Models</li>
+</ul>
+
+</body>
+</html>
