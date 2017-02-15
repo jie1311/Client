@@ -3,13 +3,45 @@
       xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8" />
-    <title>Title</title>
+    <title>Aviation Fan</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
+<nav class="navbar navbar-inverse indexFont indexNav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle indexNavBt" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Aviation Fan</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="#">Aircraft</a></li>
+                <li><a href="#">Airports</a></li>
+                <li><a href="#">Routes</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8080/">Management</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <ul>
-<li th:each="air:${aircrafts}" th:text="${air}">Aircraft Models</li>
+    <li th:each="air:${aircrafts}" th:text="${air}">Aircraft Models</li>
 </ul>
 
 </body>
 </html>
+
+
+
+
