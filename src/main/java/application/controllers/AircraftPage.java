@@ -17,11 +17,11 @@ public class AircraftPage {
     public String getAircraft(Model model) {
         RestTemplate restTemplate = new RestTemplate();
         Aircraft[] aircrafts = restTemplate.getForObject("http://localhost:8080/getAircraft", Aircraft[].class);
-        ArrayList aircraftList = new ArrayList<>();
-        for (Aircraft aircraft : aircrafts) {
-            aircraftList.add(aircraft.getType());
-        }
-        model.addAttribute("aircrafts", aircraftList);
+//        ArrayList aircraftList = new ArrayList<>();
+//        for (Aircraft aircraft : aircrafts) {
+//            aircraftList.add(aircraft.toString());
+//        }
+        model.addAttribute("aircrafts", aircrafts);
         return "aircraft";
     }
 }
