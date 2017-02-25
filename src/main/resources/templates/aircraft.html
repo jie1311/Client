@@ -1,71 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org" >
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Aviation Fan</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script th:inline="javascript">
-        //<![CDATA[
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawSeriesChart);
-
-        function drawSeriesChart() {
-            var arr = /*[[${aircrafts}]]*/ '[]';
-
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Type');
-            data.addColumn('number', 'Range');
-            data.addColumn('number', 'Capacity');
-            data.addColumn('string', 'Manufacturer');
-            data.addColumn('number', 'Capacity');
-
-            for (var i = 0; i < arr.length; i++) {
-                data.addRow([
-                    arr[i].model + '-' + arr[i].submodel,
-                    arr[i].range,
-                    arr[i].capacity,
-                    arr[i].manufacturer,
-                    arr[i].capacity]
-                );
-            }
-
-            var options = {
-                hAxis: {
-                    minValue: 8000,
-                    maxValue: 20000,
-                    title: 'Range'
-                },
-                vAxis: {
-                    minValue: 200,
-                    maxValue: 450,
-                    title: 'Capacity'
-                },
-                sizeAxis: {
-                    sortBubblesBySize: true,
-                    minSize: 14,
-                    maxSize: 26
-                },
-                bubble :{
-                    textStyle: {
-                        fontSize: 8
-                    }
-                },
-                chartArea: {
-                    width: '100%',
-                    height: '100%'
-                }
-            };
-
-            var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
-            chart.draw(data, options);
-        }
-        //]]>
-    </script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
 
@@ -95,19 +38,82 @@
 <div class="container-fluid indexFont topPaddingMuch">
     <div class="row">
         <div class="col-sm-8 noBorder">
-            <div id="series_chart_div"
-                 style="
-                    width: 100%;
-                    height: 100vh;
-                    padding-top: 50px;
-                    padding-bottom: 45px;
-                    margin-top: -50px;
-                    margin-bottom: -45px;"></div>
+            <div class="lrPadding">
+            <h3>Range and Capacity Comparision of all Aircraft Types</h3>
+            </div>
+            <div id="myDiv" style="width: 100%; height: 100%;"></div>
+            <script th:inline="javascript">
+                //<![CDATA[
+                var arr = /*[[${aircrafts}]]*/ '[]';
+                var data = [];
+
+                var manarr = [];
+                for (var i = 0; i < arr.length; i++) {
+                    if (manarr.indexOf(arr[i].manufacturer) == -1) {
+                        manarr.push(arr[i].manufacturer);
+                    }
+                }
+
+                for (var j = 0; j < manarr.length; j++) {
+                    var rngarr = [];
+                    var cpcarr = [];
+                    var mrkarr = [];
+                    var txtarr = [];
+                    for (var i = 0; i < arr.length; i++) {
+                        if (arr[i].manufacturer == manarr[j]) {
+                            rngarr.push(arr[i].range);
+                            cpcarr.push(arr[i].capacity);
+                            mrkarr.push(Math.sqrt(arr[i].capacity) * 1.25);
+                            txtarr.push(arr[i].model + '-' + arr[i].submodel);
+                        }
+                    }
+                    var traceX = {
+                        x: rngarr,
+                        y: cpcarr,
+                        text: txtarr,
+                        mode: 'markers',
+                        name: manarr[j],
+                        marker: {
+                            size: mrkarr
+                        }
+                    };
+                    data.push(traceX);
+                }
+
+                var layout = {
+                    showlegend: true,
+                    autosize: true,
+                    xaxis: {
+                        range: [0, 18000],
+                        title: 'Range (km)'
+                    },
+                    yaxis: {
+                        range: [0, 600],
+                        title: 'Capacity (people)'
+                    },
+                    legend: {
+                        yanchor: 'middle',
+                        xanchor: 'right'
+                    },
+                    hovermode: 'closest',
+                    margin: {
+                        l: 80,
+                        r: 0,
+                        b: 50,
+                        t: 0
+                    }
+                };
+
+                var options = {
+                    scrollZoom: true,
+                    displayModeBar: false
+                };
+
+                Plotly.newPlot('myDiv', data, layout, options);
+                //]]>
+            </script>
         </div>
-        <div class="col-sm-4 topPadding">
-            <!--<ul>-->
-                <!--<li th:each="air:${aircrafts}" th:text="${air}">Aircraft Models</li>-->
-            <!--</ul>-->
+        <div class="col-sm-4 noBorder">
         </div>
     </div>
 </div>
