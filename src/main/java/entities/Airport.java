@@ -5,35 +5,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Airport {
 
-    private String id;
-
-    private String iataCode;
+    private String iata;
     private String city;
-    private double[] coordinate;
+    private double lng;
+    private double lat;
 
     public Airport() {
     }
 
-    public Airport(String iataCode, String city, double[] coordinate) {
-        this.iataCode = iataCode;
+    public Airport(String iata, String city, double lng, double lat) {
+        this.iata = iata;
         this.city = city;
-        this.coordinate = coordinate;
+        this.lng = lng;
+        this.lat = lat;
     }
 
-    public String getId() {
-        return id;
+    public String getIata() {
+        return iata;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getIataCode() {
-        return iataCode;
-    }
-
-    public void setIataCode(String iataCode) {
-        this.iataCode = iataCode;
+    public void setIata(String iata) {
+        this.iata = iata;
     }
 
     public String getCity() {
@@ -44,22 +36,26 @@ public class Airport {
         this.city = city;
     }
 
-    public double[] getCoordinate() {
-        return coordinate;
+    public double getLng() {
+        return lng;
     }
 
-    public void setCoordinate(double[] coordinate) {
-        this.coordinate = coordinate;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
-    public String getAirport() {
-        return String.format("%s %s", iataCode, city);
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     @Override
     public String toString() {
-        return String.format("{\"iata\":\"%s\", \"city\":\"%s\", \"long\":%f, \"lat\":%f}",
-                iataCode, city, coordinate[0], coordinate[1]);
+        return String.format("{\"iata\":\"%s\", \"city\":\"%s\", \"lng\":%f, \"lat\":%f}",
+                iata, city, lng, lat);
     }
 }
 

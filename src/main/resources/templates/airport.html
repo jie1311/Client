@@ -24,8 +24,8 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Aircraft</a></li>
-                <li><a href="airport">Airports</a></li>
+                <li><a href="aircraft">Aircraft</a></li>
+                <li class="active"><a href="#">Airports</a></li>
                 <li><a href="route">Routes</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -39,69 +39,59 @@
     <div class="row">
         <div class="col-sm-8 noBorder">
             <div class="lrPadding">
-            <h3>Range and Capacity Comparision of all Aircraft Types</h3>
+                <h3>All Airports on Map</h3>
             </div>
             <div id="myDiv" style="width: 100%; height: 100%;"></div>
             <script th:inline="javascript">
                 //<![CDATA[
-                var arr = /*[[${aircrafts}]]*/ '[]';
-                var data = [];
+                var arr = /*[[${airports}]]*/ '[]';
 
-                var manarr = [];
+                var txtarr = [];
+                var lonarr = [];
+                var latarr = [];
                 for (var i = 0; i < arr.length; i++) {
-                    if (manarr.indexOf(arr[i].manufacturer) == -1) {
-                        manarr.push(arr[i].manufacturer);
-                    }
+                    txtarr.push(arr[i].iata);
+                    lonarr.push(arr[i].lng);
+                    latarr.push(arr[i].lat);
                 }
 
-                for (var j = 0; j < manarr.length; j++) {
-                    var rngarr = [];
-                    var cpcarr = [];
-                    var mrkarr = [];
-                    var txtarr = [];
-                    for (var i = 0; i < arr.length; i++) {
-                        if (arr[i].manufacturer == manarr[j]) {
-                            rngarr.push(arr[i].range);
-                            cpcarr.push(arr[i].capacity);
-                            mrkarr.push(Math.sqrt(arr[i].capacity) * 1.25);
-                            txtarr.push(arr[i].model + '-' + arr[i].submodel);
-                        }
-                    }
-                    var traceX = {
-                        x: rngarr,
-                        y: cpcarr,
-                        text: txtarr,
-                        mode: 'markers',
-                        name: manarr[j],
-                        marker: {
-                            size: mrkarr
-                        }
-                    };
-                    data.push(traceX);
-                }
+                var data = [{
+                    type: 'scattergeo',
+                    mode: 'markers+text',
+                    text: txtarr,
+                    lon: lonarr,
+                    lat: latarr,
+                    marker: {
+                        size: 10,
+                        color: '#ff7777'
+                    },
+                    name: 'Airports'
+                }];
 
                 var layout = {
-                    showlegend: true,
-                    autosize: true,
-                    xaxis: {
-                        range: [0, 18000],
-                        title: 'Range (km)'
+                    geo: {
+                        scope: 'world',
+                        projection : {
+                            type: 'orthographic',
+                            rotation: {
+                                lon: 120
+                            }
+                        },
+                        resolution: 50,
+                        showland: true,
+                        landcolor: '#ffee77',
+                        showocean: true,
+                        oceancolor: '#5599ff',
+                        coastlinewidth: 0,
+                        showframe: false
                     },
-                    yaxis: {
-                        range: [0, 600],
-                        title: 'Capacity (people)'
-                    },
-                    legend: {
-                        yanchor: 'middle',
-                        xanchor: 'right'
-                    },
-                    hovermode: 'closest',
                     margin: {
-                        l: 80,
+                        l: 0,
                         r: 0,
-                        b: 50,
+                        b: 0,
                         t: 0
-                    }
+                    },
+                    autosize: true
                 };
 
                 var options = {
@@ -114,6 +104,7 @@
             </script>
         </div>
         <div class="col-sm-4 noBorder">
+
         </div>
     </div>
 </div>

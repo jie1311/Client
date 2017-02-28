@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Aircraft {
 
-    private String id;
     private String manufacturer;
     private String model;
     private String submodel;
@@ -21,10 +20,6 @@ public class Aircraft {
         this.submodel = subModel;
         this.range = range;
         this.capacity = capacity;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getManufacturer() {
