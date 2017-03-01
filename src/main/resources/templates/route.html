@@ -87,18 +87,22 @@
             try {
                 var str = /*[[${route}]]*/ '{}';
                 var obj = JSON.parse(str);
-                var lnearr = obj.route;
-                for (var i = 0; i < lnearr.length; i++) {
-                    lonarr2.push(lnearr[i].lng);
-                    latarr2.push(lnearr[i].lat);
-                }
-                if (Math.abs(lnearr[0].lng - lnearr[lnearr.length - 1].lng) > 180) {
-                    rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2 + 180;
+                if (obj.reachable == true) {
+                    var lnearr = obj.route;
+                    for (var i = 0; i < lnearr.length; i++) {
+                        lonarr2.push(lnearr[i].lng);
+                        latarr2.push(lnearr[i].lat);
+                    }
+                    if (Math.abs(lnearr[0].lng - lnearr[lnearr.length - 1].lng) > 180) {
+                        rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2 + 180;
+                    } else {
+                        rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2;
+                    }
                 } else {
-                    rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2;
+                    document.getElementById('test').innerHTML = 'No route found.';
                 }
             } catch (e) {
-                document.getElementById('test').innerHTML = 'No route found.';
+                //document.getElementById('test').innerHTML = 'No route found.';
             }
 
             var data = [{
