@@ -36,11 +36,161 @@
 </nav>
 
 <div class="container-fluid indexFont topPaddingMuch">
+    <div class="lrPadding">
+        <h3>Find a Route</h3>
+    </div>
     <div class="row">
-        <div class="col-sm-8 noBorder">
+        <div class="col-sm-4 lrPadding">
+            <form action="#" th:action="@{/route}" th:object="${routeForm}" method="post">
+                <p>From:<br />
+                    <select th:field="*{orgIata}" class="form-group fullWide">
+                        <option th:each="air:${airports}" th:text="${air.iata} + ' ' + ${air.city}" th:value="${air.iata}">Airports</option>
+                    </select><br />
+
+                    To:<br />
+                    <select  th:field="*{desIata}" class="form-group fullWide">
+                        <option th:each="air:${airports}" th:text="${air.iata} + ' ' + ${air.city}" th:value="${air.iata}">Airports</option>
+                    </select><br />
+
+                    Aircraft:<br />
+                    <select  th:field="*{range}" class="form-group fullWide">
+                        <option th:each="air:${aircrafts}" th:text="${air.manufacturer} + ' ' + ${air.model} + '-' + ${air.submodel}" th:value="${air.range}">Aircraft Model</option>
+                    </select>
+                </p>
+                <p>
+                    <button class="btn btn-primary fullWide" type="submit">Check</button>
+                </p>
+            </form>
+            <h4 id="test"></h4>
         </div>
         <div class="col-sm-4 noBorder">
+            <div id="globeView" style="width: 100%; height: 34vw;"></div>
         </div>
+        <div class="col-sm-4 noBorder">
+            <div id="mapView" style="width: 100%; height: 34vw;"></div>
+        </div>
+        <script th:inline="javascript">
+            //<![CDATA[
+            var txtarr = [];
+            var lonarr = [];
+            var latarr = [];
+            var arr = /*[[${airports}]]*/ '[]';
+            for (var i = 0; i < arr.length; i++) {
+                txtarr.push(arr[i].iata);
+                lonarr.push(arr[i].lng);
+                latarr.push(arr[i].lat);
+            }
+
+            var lonarr2 = [];
+            var latarr2 = [];
+            var rlon = 120;
+            try {
+                var str = /*[[${route}]]*/ '{}';
+                var obj = JSON.parse(str);
+                var lnearr = obj.route;
+                for (var i = 0; i < lnearr.length; i++) {
+                    lonarr2.push(lnearr[i].lng);
+                    latarr2.push(lnearr[i].lat);
+                }
+                if (Math.abs(lnearr[0].lng - lnearr[lnearr.length - 1].lng) > 180) {
+                    rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2 + 180;
+                } else {
+                    rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2;
+                }
+            } catch (e) {
+                document.getElementById('test').innerHTML = 'No route found.';
+            }
+
+            var data = [{
+                type: 'scattergeo',
+                mode: 'markers+text',
+                text: txtarr,
+                lon: lonarr,
+                lat: latarr,
+                marker: {
+                    size: 10,
+                    color: '#ff7777'
+                },
+                name: 'Airports'
+            }, {
+                type: 'scattergeo',
+                mode: 'lines',
+                lon: lonarr2,
+                lat: latarr2,
+                line:{
+                    width: 2,
+                    color: '#336699'
+                },
+                name: 'Route'
+            }];
+
+            var layoutG = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'orthographic',
+                        rotation: {
+                            lon: rlon
+                        }
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true,
+                showlegend: false
+            };
+
+            var layoutM = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'equirectangular',
+                        rotation: {
+                            lon: rlon
+                        }
+                    },
+                    lonaxis: {
+                        'range': [rlon - 90, rlon + 90]
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true,
+                showlegend: false
+            };
+
+            var options = {
+                scrollZoom: true,
+                displayModeBar: false
+            };
+
+            Plotly.newPlot('globeView', data, layoutG, options);
+            Plotly.newPlot('mapView', data, layoutM, options);
+            //]]>
+        </script>
+
     </div>
 </div>
 
