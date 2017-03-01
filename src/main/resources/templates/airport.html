@@ -36,76 +36,100 @@
 </nav>
 
 <div class="container-fluid indexFont topPaddingMuch">
+    <div class="lrPadding">
+        <h3>All Airports on Map</h3>
+    </div>
     <div class="row">
         <div class="col-sm-8 noBorder">
-            <div class="lrPadding">
-                <h3>All Airports on Map</h3>
-            </div>
-            <div id="myDiv" style="width: 100%; height: 100%;"></div>
-            <script th:inline="javascript">
-                //<![CDATA[
-                var arr = /*[[${airports}]]*/ '[]';
-
-                var txtarr = [];
-                var lonarr = [];
-                var latarr = [];
-                for (var i = 0; i < arr.length; i++) {
-                    txtarr.push(arr[i].iata);
-                    lonarr.push(arr[i].lng);
-                    latarr.push(arr[i].lat);
-                }
-
-                var data = [{
-                    type: 'scattergeo',
-                    mode: 'markers+text',
-                    text: txtarr,
-                    lon: lonarr,
-                    lat: latarr,
-                    marker: {
-                        size: 10,
-                        color: '#ff7777'
-                    },
-                    name: 'Airports'
-                }];
-
-                var layout = {
-                    geo: {
-                        scope: 'world',
-                        projection : {
-                            type: 'orthographic',
-                            rotation: {
-                                lon: 120
-                            }
-                        },
-                        resolution: 50,
-                        showland: true,
-                        landcolor: '#ffee77',
-                        showocean: true,
-                        oceancolor: '#5599ff',
-                        coastlinewidth: 0,
-                        showframe: false
-                    },
-                    margin: {
-                        l: 0,
-                        r: 0,
-                        b: 0,
-                        t: 0
-                    },
-                    autosize: true
-                };
-
-                var options = {
-                    scrollZoom: true,
-                    displayModeBar: false
-                };
-
-                Plotly.newPlot('myDiv', data, layout, options);
-                //]]>
-            </script>
+            <div id="mapView" style="width: 100%; height: 34vw;"></div>
         </div>
         <div class="col-sm-4 noBorder">
-
+            <div id="globeView" style="width: 100%; height: 34vw;"></div>
         </div>
+        <script th:inline="javascript">
+            //<![CDATA[
+            var arr = /*[[${airports}]]*/ '[]';
+
+            var txtarr = [];
+            var lonarr = [];
+            var latarr = [];
+            for (var i = 0; i < arr.length; i++) {
+                txtarr.push(arr[i].iata);
+                lonarr.push(arr[i].lng);
+                latarr.push(arr[i].lat);
+            }
+
+            var data = [{
+                type: 'scattergeo',
+                mode: 'markers+text',
+                text: txtarr,
+                lon: lonarr,
+                lat: latarr,
+                marker: {
+                    size: 10,
+                    color: '#ff7777'
+                },
+                name: 'Airports'
+            }];
+
+            var layoutG = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'orthographic',
+                        rotation: {
+                            lon: 120
+                        }
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true
+            };
+
+            var layoutM = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'equirectangular'
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true
+            };
+
+            var options = {
+                scrollZoom: true,
+                displayModeBar: false
+            };
+
+            Plotly.newPlot('globeView', data, layoutG, options);
+            Plotly.newPlot('mapView', data, layoutM, options);
+            //]]>
+        </script>
     </div>
 </div>
 
