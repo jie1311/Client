@@ -55,6 +55,11 @@
                     Aircraft:<br />
                     <select  th:field="*{range}" class="form-group fullWide">
                         <option th:each="air:${aircrafts}" th:text="${air.manufacturer} + ' ' + ${air.model} + '-' + ${air.submodel}" th:value="${air.range}">Aircraft Model</option>
+                    </select><br />
+
+                    Preference:<br />
+                    <select  th:field="*{way}" class="form-group fullWide">
+                        <option th:each="air:${ways}" th:text="${air}" th:value="${air}">Aircraft Model</option>
                     </select>
                 </p>
                 <p>
@@ -118,11 +123,15 @@
                 name: 'Airports'
             }, {
                 type: 'scattergeo',
-                mode: 'lines',
+                mode: 'lines+markers',
                 lon: lonarr2,
                 lat: latarr2,
                 line:{
                     width: 2,
+                    color: '#336699'
+                },
+                marker: {
+                    size: 5,
                     color: '#336699'
                 },
                 name: 'Route'

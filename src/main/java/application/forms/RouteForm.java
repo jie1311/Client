@@ -12,6 +12,9 @@ public class RouteForm {
     @NotNull
     private String range;
 
+    @NotNull
+    private String way;
+
     public RouteForm() {
     }
 
@@ -37,5 +40,13 @@ public class RouteForm {
 
     public void setRange(String range) {
         this.range = range;
+    }
+
+    public String getWay() {
+        return way;
+    }
+
+    public void setWay(String way) {
+        this.way = way;
     }
 }
