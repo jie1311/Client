@@ -100,6 +100,9 @@
                     }
                     if (Math.abs(lnearr[0].lng - lnearr[lnearr.length - 1].lng) > 180) {
                         rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2 + 180;
+                        if (rlon >= 180) {
+                            rlon -= 360;
+                        }
                     } else {
                         rlon = (lnearr[0].lng + lnearr[lnearr.length - 1].lng) / 2;
                     }
@@ -203,7 +206,6 @@
             Plotly.newPlot('mapView', data, layoutM, options);
             //]]>
         </script>
-
     </div>
 </div>
 
