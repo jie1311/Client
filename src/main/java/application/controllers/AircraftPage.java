@@ -1,5 +1,6 @@
 package application.controllers;
 
+import Inputs.AircraftInput;
 import entities.Aircraft;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +16,7 @@ public class AircraftPage {
     @RequestMapping(method = RequestMethod.GET)
     public String getAircraft(Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        Aircraft[] aircrafts = restTemplate.getForObject("http://localhost:8080/getAircraft", Aircraft[].class);
+        Aircraft[] aircrafts = restTemplate.getForObject("http://localhost:8080/getAircraft", AircraftInput.class).getData();
         model.addAttribute("aircrafts", aircrafts);
         return "aircraft";
     }

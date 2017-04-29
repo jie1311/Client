@@ -1,5 +1,8 @@
 package application.controllers;
 
+import Inputs.AircraftInput;
+import Inputs.AirportInput;
+import Inputs.RouteInput;
 import application.forms.RouteForm;
 import entities.Aircraft;
 import entities.Airport;
@@ -34,7 +37,7 @@ public class RoutePage {
         } else {
             url = String.format("http://localhost:8080/getRoute?org=%s&des=%s&range=%s&way=minr", routeForm.getOrgIata(), routeForm.getDesIata(), routeForm.getRange());
         }
-        Route route = restTemplate.getForObject(url, Route.class);
+        Route route = restTemplate.getForObject(url, RouteInput.class).getData();
         model.addAttribute("route", String.format("%s", route));
         initialPage(model);
         return "route";
@@ -42,9 +45,9 @@ public class RoutePage {
 
     private void initialPage(Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        Aircraft[] aircrafts = restTemplate.getForObject("http://localhost:8080/getAircraft", Aircraft[].class);
+        Aircraft[] aircrafts = restTemplate.getForObject("http://localhost:8080/getAircraft", AircraftInput.class).getData();
         model.addAttribute("aircrafts", aircrafts);
-        Airport[] airports = restTemplate.getForObject("http://localhost:8080/getAirport", Airport[].class);
+        Airport[] airports = restTemplate.getForObject("http://localhost:8080/getAirport", AirportInput.class).getData();
         model.addAttribute("airports", airports);
         String[] ways = {"Minimal Flying Time", "Minimal Transfer"};
         model.addAttribute("ways", ways);

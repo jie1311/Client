@@ -1,5 +1,6 @@
 package application.controllers;
 
+import Inputs.AirportInput;
 import entities.Airport;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ public class AirportPage {
     @RequestMapping(method = RequestMethod.GET)
     public String getAircraft(Model model) {
         RestTemplate restTemplate = new RestTemplate();
-        Airport[] airports = restTemplate.getForObject("http://localhost:8080/getAirport", Airport[].class);
+        Airport[] airports = restTemplate.getForObject("http://localhost:8080/getAirport", AirportInput.class).getData();
         model.addAttribute("airports", airports);
         return "airport";
     }
