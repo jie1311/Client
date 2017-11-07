@@ -1,0 +1,126 @@
+.indexTitle {
+    margin: 0;
+    background-image: url("../img/title.png");
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-color: #a6c9e8;
+    background-position: right bottom;
+    border-radius: 0;
+}
+
+.indexNav {
+    border-radius: 0;
+    background-color: #000000;
+    border: 0;
+    margin: 0;
+}
+
+.indexFont {
+    font-family: "Gurmukhi MN";
+}
+
+.nav.navbar-nav li a {
+    color: #aaaaaa;
+}
+
+.nav.navbar-nav a:hover {
+    color: #ffffff;
+}
+
+.active a{
+    background-color: #333333 !important;
+}
+
+.indexNavBt {
+    border: 0;
+}
+
+.navbar-collapse
+{
+    border: 0 !important;
+}
+
+.navbar-inverse .navbar-brand {
+    color: #aaaaaa;
+}
+
+.noBorder {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.topPadding {
+    padding-top: 15px;
+}
+
+.fullWide {
+    width: 100% !important;
+}
+
+.halfWide {
+    width: 50% !important;
+}
+
+.fullHeight {
+    height: 100% !important;
+}
+
+.lrPadding {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.topPaddingMuch {
+    padding-top: 50px;
+    padding-bottom: 45px;
+}
+
+.indexFot {
+    border-radius: 0;
+    background-color: #eeeeee;
+    color: #111111;
+    border: 0;
+    margin: 0;
+}
+
+.indexPicFlow {
+    padding: 0;
+}
+
+.indexPicEach {
+    width: 100% !important;
+    height: 100vh !important;
+}
+
+.btmPaddingMuch {
+    padding-bottom: 45px;
+}
+
+.fillqf {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/qf744.jpg');
+}
+
+.fillsq {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/sq744.jpg');
+}
+
+.fillvs {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/vs789.jpg');
+}
+
+.filltn {
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/tn343.jpg');
+}

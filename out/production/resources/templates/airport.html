@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Aviation Fan</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse indexFont indexNav navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle indexNavBt" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Aviation Fan</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="aircraft">Aircraft</a></li>
+                <li class="active"><a href="#">Airports</a></li>
+                <li><a href="route">Routes</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8080/">Management</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid indexFont topPaddingMuch">
+    <div class="lrPadding">
+        <h3>All Airports on Map</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 noBorder">
+            <div id="mapView" style="width: 100%; height: 34vw;"></div>
+        </div>
+        <div class="col-sm-4 noBorder">
+            <div id="globeView" style="width: 100%; height: 34vw;"></div>
+        </div>
+        <script th:inline="javascript">
+            //<![CDATA[
+            var arr = /*[[${airports}]]*/ '[]';
+
+            var txtarr = [];
+            var lonarr = [];
+            var latarr = [];
+            for (var i = 0; i < arr.length; i++) {
+                txtarr.push(arr[i].iata);
+                lonarr.push(arr[i].lng);
+                latarr.push(arr[i].lat);
+            }
+
+            var data = [{
+                type: 'scattergeo',
+                mode: 'markers+text',
+                text: txtarr,
+                lon: lonarr,
+                lat: latarr,
+                marker: {
+                    size: 10,
+                    color: '#ff7777'
+                },
+                name: 'Airports'
+            }];
+
+            var layoutG = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'orthographic',
+                        rotation: {
+                            lon: 120
+                        }
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true
+            };
+
+            var layoutM = {
+                geo: {
+                    scope: 'world',
+                    projection : {
+                        type: 'equirectangular'
+                    },
+                    resolution: 50,
+                    showland: true,
+                    landcolor: '#ffee77',
+                    showocean: true,
+                    oceancolor: '#5599ff',
+                    coastlinewidth: 0,
+                    showframe: false
+                },
+                margin: {
+                    l: 0,
+                    r: 0,
+                    b: 0,
+                    t: 0
+                },
+                autosize: true
+            };
+
+            var options = {
+                scrollZoom: true,
+                displayModeBar: false
+            };
+
+            Plotly.newPlot('mapView', data, layoutM, options);
+            Plotly.newPlot('globeView', data, layoutG, options);
+            //]]>
+        </script>
+    </div>
+</div>
+
+<footer class="footer indexFont navbar-fixed-bottom indexFot">
+    <div class="container">
+        <p class="text-muted topPadding">Aviation Fan (c) 2017</p>
+    </div>
+</footer>
+</body>
+</html>
+
+
+
+
